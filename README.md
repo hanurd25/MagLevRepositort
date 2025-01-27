@@ -6,6 +6,7 @@ Downloading qt by this way shown in the link here:
 C:\qt6\6.5.3\bin\windeployqt.exe QtLivePlot.exe
 
 HKU cmake:
+
 "
 -DCMAKE_TOOLCHAIN_FILE=C:/PATH_TO_VCPKG_FROM_ROOOT/vcpkg/scripts/buildsystems/vcpkg.cmake
 -DCMAKE_PREFIX_PATH=C:/qt6/6.5.3/lib/cmake

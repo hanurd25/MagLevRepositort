@@ -5,6 +5,9 @@ Downloading qt by this way shown in the link here:
 //Use this command:
 C:\qt6\6.5.3\bin\windeployqt.exe QtLivePlot.exe
 
+The code uses QCustomPlot fetch with cmake with the turtorial found under:
+https://github.com/conelov/qcustomplot-fetch
+
 HKU cmake:
 
 "

@@ -23,3 +23,12 @@ vcpkg> .\vcpkg.exe x-add-version --all
 
 //Use this command:
 C:\qt6\6.5.3\bin\windeployqt.exe QtLivePlot.exe
+
+HKU cmake:
+"
+-DCMAKE_TOOLCHAIN_FILE=C:/pathToVCPKG/vcpkg/scripts/buildsystems/vcpkg.cmake
+-DEigen3_DIR=C:/pathToVCPKG/vcpkg/installed/x64-windows/share/eigen3
+-DQt6_DIR=C:/qt6/6.5.3/lib/cmake/Qt6
+-DOpenCV_DIR=C:/pathToVCPKG/opencv/build
+-DVCPKG_MANIFEST_FEATURES=assimp;imgui
+"

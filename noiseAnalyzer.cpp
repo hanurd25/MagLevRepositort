@@ -16,8 +16,9 @@ int main(int argc, char *argv[]) {
     customPlot->addGraph();
     customPlot->xAxis->setLabel("Iteration");
     customPlot->yAxis->setLabel("Position");
-    customPlot->xAxis->setRange(0, 10);  // Initial range for x-axis
-    customPlot->yAxis->setRange(-1, 1);  // Initial range for y-axis
+    //These are the initial ranges for X and Y axis.
+    customPlot->xAxis->setRange(0, 10);
+    customPlot->yAxis->setRange(-1, 1);
 
     QVector<double> xData, yData;
 

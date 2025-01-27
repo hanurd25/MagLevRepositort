@@ -1,0 +1,9 @@
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/CMakeFiles/QtLivePlot.dir
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/CMakeFiles/MagLevControl.dir
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/CMakeFiles/edit_cache.dir
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/CMakeFiles/rebuild_cache.dir
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/submodules/qcustomplot-fetch/CMakeFiles/qcustomplot.dir
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/submodules/qcustomplot-fetch/CMakeFiles/edit_cache.dir
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/submodules/qcustomplot-fetch/CMakeFiles/rebuild_cache.dir
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/submodules/qcustomplot-fetch/CMakeFiles/qcustomplot_autogen_timestamp_deps.dir
+C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/submodules/qcustomplot-fetch/CMakeFiles/qcustomplot_autogen.dir

@@ -1,0 +1,19 @@
+# ninja log v6
+1843	20469	7596972803682681	submodules/qcustomplot-fetch/CMakeFiles/qcustomplot.dir/__/__/_deps/qcustomplot-src/qcustomplot.cpp.obj	24738e67dd86664a
+6	1835	7596972802840810	submodules/qcustomplot-fetch/qcustomplot_autogen/timestamp	87514905e0ed378c
+1840	12122	7596972803651145	submodules/qcustomplot-fetch/CMakeFiles/qcustomplot.dir/qcustomplot_autogen/mocs_compilation.cpp.obj	7ff5a5306ffaf455
+6	1835	7596972802840810	submodules/qcustomplot-fetch/qcustomplot_autogen/mocs_compilation.cpp	87514905e0ed378c
+6	1835	7596972802840810	C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/submodules/qcustomplot-fetch/qcustomplot_autogen/timestamp	87514905e0ed378c
+1847	8681	7596972803722113	CMakeFiles/QtLivePlot.dir/noiseAnalyzer.cpp.obj	400ae99091ea32c
+45238	80521	7596973237635636	QtLivePlot.exe	2b647f8600adab4f
+6	1835	7596972802840810	C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/submodules/qcustomplot-fetch/qcustomplot_autogen/mocs_compilation.cpp	87514905e0ed378c
+20469	45238	7596972989942126	submodules/qcustomplot-fetch/libqcustomplot.a	4bbaad0f4e24f878
+8	4490	7596974619203862	build.ninja	cc509f42772fda34
+30	4956	7596974621310518	CMakeFiles/QtLivePlot.dir/noiseAnalyzer.cpp.obj	400ae99091ea32c
+4956	46888	7596974670578215	QtLivePlot.exe	2b647f8600adab4f
+27	6214	7596976160764004	CMakeFiles/QtLivePlot.dir/noiseAnalyzer.cpp.obj	400ae99091ea32c
+6215	43702	7596976222631676	QtLivePlot.exe	2b647f8600adab4f
+25	4960	7596976846253251	CMakeFiles/QtLivePlot.dir/noiseAnalyzer.cpp.obj	400ae99091ea32c
+4961	42338	7596976895620545	QtLivePlot.exe	2b647f8600adab4f
+53	5482	7597010797262212	CMakeFiles/QtLivePlot.dir/noiseAnalyzer.cpp.obj	400ae99091ea32c
+5483	45729	7597010851565570	QtLivePlot.exe	2b647f8600adab4f

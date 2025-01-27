@@ -9,7 +9,7 @@ The code uses QCustomPlot fetch with cmake with the turtorial found under:
 https://github.com/conelov/qcustomplot-fetch
 
 HKU cmake:
-
+wsa
 "
 -DCMAKE_TOOLCHAIN_FILE=C:/PATH_TO_VCPKG_FROM_ROOOT/vcpkg/scripts/buildsystems/vcpkg.cmake
 -DCMAKE_PREFIX_PATH=C:/qt6/6.5.3/lib/cmake

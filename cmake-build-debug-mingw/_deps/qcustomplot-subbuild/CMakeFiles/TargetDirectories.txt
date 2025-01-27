@@ -1,3 +1,0 @@
-C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/_deps/qcustomplot-subbuild/CMakeFiles/qcustomplot-populate.dir
-C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/_deps/qcustomplot-subbuild/CMakeFiles/edit_cache.dir
-C:/Users/hanur/CLionProjects/MagLevControl/cmake-build-debug-mingw/_deps/qcustomplot-subbuild/CMakeFiles/rebuild_cache.dir

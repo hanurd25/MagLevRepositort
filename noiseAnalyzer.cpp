@@ -1,10 +1,37 @@
 #include <QApplication>
+#include <QMainWindow>
 #include <QTimer>
-//#include "externals/qt/qcustomplot.h"
-//#include <qcustomplot.h>
+#include <QFile>
+#include <QTextStream>
+#include <QVector>
+#include <QStringList>
 #include <qcustomplot.h>
+#include <iostream>
+#include <sstream>
+#include <cmath>
+#include "serial/serial.h"
 
-int main(int argc, char *argv[]) {
+void printCSVValues(const std::vector<std::string>& values) {
+    for (size_t i = 0; i < values.size(); ++i) {
+        std::cout << "Value " << i + 1 << ": " << values[i] << std::endl;
+    }
+}
+
+std::vector<std::string> splitCSV(const std::string& line, char delimiter = ',') {
+    std::vector<std::string> tokens;
+    std::stringstream ss(line);
+    std::string token;
+
+    while (std::getline(ss, token, delimiter)) {
+        tokens.push_back(token);
+    }
+
+    return tokens;
+}
+
+
+
+int main(int argc, char *argv[]) { //SimpleSerial : https://github.com/dmicha16/simple_serial_port
     QApplication app(argc, argv);
 
     QMainWindow mainWindow;

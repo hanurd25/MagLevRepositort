@@ -5,18 +5,39 @@ if (MSVC)
     add_compile_options(/Zc:__cplusplus)
 endif ()
 
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #set(CMAKE_PREFIX_PATH "C:/qt6/6.5.3/lib/cmake")
 set(QCUSTOMPLOT_VERSION "2.1.1")
 
+set(CMAKE_PREFIX_PATH "C:/qt6/6.5.3;${CMAKE_PREFIX_PATH}")
+
+
 
 find_package(Eigen3 CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets PrintSupport)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets PrintSupport) #SerialPort)
 
 add_subdirectory(submodules/qcustomplot-fetch)
+
+
+include(FetchContent)
+set(SERIAL_BUILD_EXAMPLES OFF)
+FetchContent_Declare(
+        serial
+        GIT_REPOSITORY https://github.com/markaren/serial.git
+        GIT_TAG fd4ef255f693679f0d589df2145176b7c6eccb1c
+)
+FetchContent_MakeAvailable(serial)
+
+
 
 add_executable(QtLivePlot
         noiseAnalyzer.cpp
@@ -29,10 +50,13 @@ target_link_libraries(QtLivePlot
         Qt6::Gui
         Qt6::Widgets
         Qt6::PrintSupport
+        #Qt6::SerialPort
         ${OpenCV_LIBRARIES}
         #qtCustmPlotLib  # Correctly link the library target
         qcustomplot
+        serial
         #${CMAKE_BINARY_DIR}/externals/qt
+        #LibSerial
 )
 
 add_custom_command(TARGET QtLivePlot POST_BUILD

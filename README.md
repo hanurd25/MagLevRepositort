@@ -26,7 +26,7 @@ wsa
 "
 
 cmake ../qtserialport -G "Ninja" `
-    -DCMAKE_TOOLCHAIN_FILE="C:/vcpkgpackage/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+    -DCMAKE_TOOLCHAIN_FILE="C:/pathtoVCPKG/vcpkg/scripts/buildsystems/vcpkg.cmake" `
 -DCMAKE_INSTALL_PREFIX="C:/qt6" `
     -DCMAKE_PREFIX_PATH="C:/qt6/6.5.3" `
 -DQT_NO_PACKAGE_VERSION_CHECK=TRUE `

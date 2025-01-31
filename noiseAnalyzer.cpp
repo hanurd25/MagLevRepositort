@@ -11,12 +11,6 @@
 #include <cmath>
 #include "serial/serial.h"
 
-void printCSVValues(const std::vector<std::string>& values) {
-    for (size_t i = 0; i < values.size(); ++i) {
-        std::cout << "Value " << i + 1 << ": " << values[i] << std::endl;
-    }
-}
-
 std::vector<std::string> splitCSV(const std::string& line, char delimiter = ',') {
     std::vector<std::string> tokens;
     std::stringstream ss(line);
@@ -29,43 +23,71 @@ std::vector<std::string> splitCSV(const std::string& line, char delimiter = ',')
     return tokens;
 }
 
-
-
-int main(int argc, char *argv[]) { //SimpleSerial : https://github.com/dmicha16/simple_serial_port
+int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-
     QMainWindow mainWindow;
-    mainWindow.setWindowTitle("Live Plot");
+    mainWindow.setWindowTitle("Live Serial Plot");
 
+    // Create QCustomPlot instance
     QCustomPlot *customPlot = new QCustomPlot(&mainWindow);
     mainWindow.setCentralWidget(customPlot);
 
     customPlot->addGraph();
-    customPlot->xAxis->setLabel("Iteration");
-    customPlot->yAxis->setLabel("Position");
-    //These are the initial ranges for X and Y axis.
-    customPlot->xAxis->setRange(0, 10);
-    customPlot->yAxis->setRange(-1, 1);
+    customPlot->graph(0)->setPen(QPen(Qt::red));
 
-    QVector<double> xData, yData;
+    customPlot->addGraph();
+    customPlot->graph(1)->setPen(QPen(Qt::blue));
+
+    customPlot->addGraph();
+    customPlot->graph(2)->setPen(QPen(Qt::green));
+
+    customPlot->xAxis->setLabel("Time");
+    customPlot->yAxis->setLabel("Sensor Values");
+    customPlot->xAxis->setRange(0, 10);
+    customPlot->yAxis->setRange(-2, 2);
+
+    QVector<double> xData, yData1, yData2, yData3;
+    double time = 0.0;
+
+    serial::Serial mySerial("COM12", 9600, serial::Timeout::simpleTimeout(100));
 
     QTimer timer;
-    double time = 0.0;
     QObject::connect(&timer, &QTimer::timeout, [&]() {
         time += 0.1;
-        xData.append(time);
-        yData.append(qSin(time));
-        customPlot->graph(0)->setData(xData, yData);
 
-        //customPlot->xAxis->setRange(time - 10, time);
-        customPlot->xAxis->setRange(0, time);
+        if (mySerial.available()) {
+            std::string line = mySerial.readline();
+            auto values = splitCSV(line);
 
-        customPlot->replot();
+            if (values.size() == 3) {
+                try {
+                    double val1 = std::stod(values[0]);
+                    double val2 = std::stod(values[1]);
+                    double val3 = std::stod(values[2]);
+
+                    xData.append(time);
+                    yData1.append(val1);
+                    yData2.append(val2);
+                    yData3.append(val3);
+
+
+                    customPlot->graph(0)->setData(xData, yData1);
+                    customPlot->graph(1)->setData(xData, yData2);
+                    customPlot->graph(2)->setData(xData, yData3);
+
+                    //customPlot->xAxis->setRange(qMax(0.0, time - 10), time);
+                    customPlot->xAxis->setRange(qMax(0.0, 0.0), time);
+                    customPlot->replot();
+                } catch (...) {
+                    qDebug() << "Error parsing CSV values";
+                }
+            }
+        }
     });
+    //updating every 1 ms
+    timer.start(5);
 
-    timer.start(50);
     mainWindow.resize(800, 600);
     mainWindow.show();
-
     return app.exec();
 }

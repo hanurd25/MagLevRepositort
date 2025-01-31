@@ -28,7 +28,9 @@ int main(int argc, char *argv[]) {
     QMainWindow mainWindow;
     mainWindow.setWindowTitle("Live Serial Plot");
 
-    // Create QCustomPlot instance
+
+    //creating the instance for
+    //out visualization
     QCustomPlot *customPlot = new QCustomPlot(&mainWindow);
     mainWindow.setCentralWidget(customPlot);
 

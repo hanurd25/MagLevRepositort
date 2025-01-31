@@ -50,13 +50,9 @@ target_link_libraries(QtLivePlot
         Qt6::Gui
         Qt6::Widgets
         Qt6::PrintSupport
-        #Qt6::SerialPort
         ${OpenCV_LIBRARIES}
-        #qtCustmPlotLib  # Correctly link the library target
         qcustomplot
         serial
-        #${CMAKE_BINARY_DIR}/externals/qt
-        #LibSerial
 )
 
 add_custom_command(TARGET QtLivePlot POST_BUILD

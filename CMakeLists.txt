@@ -25,6 +25,9 @@ find_package(Eigen3 CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets PrintSupport) #SerialPort)
 
+find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
+
+
 add_subdirectory(submodules/qcustomplot-fetch)
 
 
@@ -55,6 +58,22 @@ target_link_libraries(QtLivePlot
         serial
 )
 
+add_executable(PlotAndWrite
+        plotAndWriteToCSV.cpp
+)
+
+target_link_libraries(PlotAndWrite
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
+        Qt6::PrintSupport
+        ${OpenCV_LIBRARIES}
+        qcustomplot
+        serial
+)
+
+
+
 add_custom_command(TARGET QtLivePlot POST_BUILD
         COMMAND C:/qt6/6.5.3/bin/windeployqt.exe $<TARGET_FILE:QtLivePlot>
         COMMENT "Running windeployqt for QtLivePlot"
@@ -67,3 +86,5 @@ target_link_libraries(MagLevControl
         Eigen3::Eigen
         ${OpenCV_LIBRARIES}
 )
+
+target_include_directories(PlotAndWrite PRIVATE ${RAPIDCSV_INCLUDE_DIRS})

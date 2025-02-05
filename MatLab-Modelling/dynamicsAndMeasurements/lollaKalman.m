@@ -1,0 +1,149 @@
+clc; clear; close all;
+
+% Load system parameters
+params = loadMaglevParams(); % Ensure this function loads the system parameters
+
+% This is the initial state
+x0 = [0, 0, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0]'; 
+P0 = eye(12) * 1e-3;  % Initial covariance
+
+% Process and measurement noise
+%Remember that we can tune these
+Q = eye(12) * 1e-5;  % Process noise covariance
+R = eye(3) * 1e-5;   % Measurement noise covariance (3-axis sensor)
+
+% UKF parameters
+alpha = 1e-3; 
+beta = 2; 
+kappa = 0;
+L = numel(x0);
+lambda = alpha^2 * (L + kappa) - L;
+gamma = sqrt(L + lambda);
+%%
+disp('Time length is:');
+disp(length(time)); %% the time is going to going to 1001
+%%
+% Time vector and control inputs
+dt = 0.01;  % Sampling time
+T = 10;     % Simulation duration
+time = 0:dt:T;
+U = zeros(4, length(time)); % Example control inputs
+
+
+
+% Initialize UKF state
+x_est = x0;
+P_est = P0;
+
+
+%Logging K gain for every iteration
+%Kalman gain expresses the confidence between the measurement and the
+%predicted values
+KGainDet = zeros(length(time));
+
+
+% Data storage for a veery veery long time
+x_hist = zeros(length(x0), length(time)); 
+y_meas_hist = zeros(3, length(time));
+y_pred_hist = zeros(3, length(time));
+
+%can chose between 'accurate', 'fast' and something else
+modelName = 'accurate';
+% UKF Loop
+for k = 1:length(time)
+    % Generate sigma points
+    % The uncentenced kalman filter uses sigma points
+    [X, Wm, Wc] = sigmaPoints(x_est, P_est, lambda, gamma, alpha, beta);
+    disp(k)
+    % Predict state
+    X_pred = zeros(size(X));
+    for i = 1:2*L+1
+        X_pred(:,i) = maglevSystemDynamics(X(:,i), U(:,k), params) * dt + X(:,i);
+    end
+    % Compute predicted mean and covariance
+    x_pred = sum(Wm .* X_pred, 2);
+    P_pred = Q;
+    for i = 1:2*L+1
+        P_pred = P_pred + Wc(i) * (X_pred(:,i) - x_pred) * (X_pred(:,i) - x_pred)';
+    end
+
+    % Predict measurement
+    Y_pred = zeros(3, 2*L+1);
+    for i = 1:2*L+1
+        Y_pred(:,i) = maglevSystemMeasurements(X_pred(:,i), U(:,k), params, modelName);
+    end
+    y_pred = sum(Wm .* Y_pred, 2);
+    Pyy = R;
+
+    for i = 1:2*L+1
+        Pyy = Pyy + Wc(i) * (Y_pred(:,i) - y_pred) * (Y_pred(:,i) - y_pred)';
+    end
+    Pxy = zeros(L, 3);
+    for i = 1:2*L+1
+        Pxy = Pxy + Wc(i) * (X_pred(:,i) - x_pred) * (Y_pred(:,i) - y_pred)';
+    end
+
+    K = Pxy / Pyy;
+    disp(K)
+    %Describing the confidance rate between the predicted and the measured
+    %states
+    %doing the Frobenius Norm because the determinant is not possible 
+    KGain(k) = norm(K, 'fro'); 
+    
+
+    % Measurement (add noise to simulate real sensor data)
+    %Remember that R is communly used for tuning the Kalman filter
+    y_meas = maglevSystemMeasurements(x_est, U(:,k), params, modelName) + sqrt(R) * randn(3,1);
+
+    % Update state and covariance
+    x_est = x_pred + K * (y_meas - y_pred);
+    P_est = P_pred - K * Pyy * K';
+    
+    % Store results
+    
+    
+
+    x_hist(:,k) = x_est;
+    y_meas_hist(:,k) = y_meas;
+    y_pred_hist(:,k) = y_pred;
+end
+
+
+figure;
+
+subplot(3,1,1); 
+plot(time, x_hist(1,:), 'r', 'LineWidth', 1.5); hold on;
+plot(time, y_meas_hist(1,:), 'g-', 'LineWidth', 1.2); 
+plot(time, y_pred_hist(1,:), 'b--', 'LineWidth', 1.2); 
+xlabel('Time [s]'); ylabel('X Position [m]'); 
+title('Maglev X Position - Estimated vs. Measured');
+legend('Estimated X', 'Measured X', 'Predicted X');
+grid on;
+
+subplot(3,1,2); 
+plot(time, x_hist(2,:), 'r', 'LineWidth', 1.5); hold on;
+plot(time, y_meas_hist(2,:), 'g--', 'LineWidth', 1.2);
+plot(time, y_pred_hist(2,:), 'b--', 'LineWidth', 1.2); 
+xlabel('Time [s]'); ylabel('Y Position [m]'); 
+title('Maglev Y Position - Estimated vs. Measured');
+legend('Estimated Y', 'Measured Y', 'Predicted Y');
+grid on;
+
+subplot(3,1,3); 
+plot(time, x_hist(3,:), 'r', 'LineWidth', 1.5); hold on;
+plot(time, y_meas_hist(3,:), 'g-', 'LineWidth', 1.2); 
+plot(time, y_pred_hist(3,:), 'b--', 'LineWidth', 1.2); 
+xlabel('Time [s]'); ylabel('Z Position [m]'); 
+title('Maglev Z Position - Estimated vs. Measured');
+legend('Estimated Z', 'Measured Z', 'Predicted Z');
+grid on;
+
+
+figure
+plot(time, KGain,'b', 'LineWidth', 1.5); hold on;
+title('Kalman gain determinant per iteration')
+xlabel('Time')
+ylabel('Kalman gain determinant')
+
+
+

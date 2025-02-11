@@ -25,7 +25,7 @@ R = eye(3) * 0.000005;
 
 
 P1_inv = diag([a, a, a, b, b, b, c, c, c, d, d, d]);
-Q = inv(P1_inv) - diag([500,500,1000,0,0,0,0,0,0,0,0,0]);
+Q = inv(P1_inv) - diag([1000,1000,1000,0,0,0,0,0,0,0,0,0]);
 %
 disp(Q)
 disp(Q)
@@ -46,8 +46,8 @@ end
 % 0,0 for x,y is the center
 % 1 2 3 4 5 6 7 8 9 19 11 12
 x0 = [0, 0, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0]'; 
-%P0 = eye(12) * 1e-8;  % Initial covariance matrice
-%P0 = eye(12) * 1e-5;  % Initial covariance matrice
+%P0 = eye(12) * 1e-8; 
+%P0 = eye(12) * 1e-5; 
 
 % Process and measurement noise
 %Remember that we can tune these

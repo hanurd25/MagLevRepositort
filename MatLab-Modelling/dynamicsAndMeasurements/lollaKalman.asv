@@ -46,8 +46,8 @@ end
 % 0,0 for x,y is the center
 % 1 2 3 4 5 6 7 8 9 19 11 12
 x0 = [0, 0, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0]'; 
-%P0 = eye(12) * 1e-8;  % Initial covariance matrice
-%P0 = eye(12) * 1e-5;  % Initial covariance matrice
+%P0 = eye(12) * 1e-8; 
+%P0 = eye(12) * 1e-5; 
 
 % Process and measurement noise
 %Remember that we can tune these
@@ -65,13 +65,13 @@ gamma = sqrt(L + lambda);
 
 
 dt = 0.01; 
-T = 10;    
+T = 30;    
 time = 0:dt:T;
 U = zeros(4, length(time)); 
 
 
 disp('Time length is:');
-disp(length(time)); %% the time is going to going to 1001
+disp(length(time)); %% the time is going to going to be 1001 with 10 secounds
 
 
 % Initialize UKF state
@@ -104,7 +104,7 @@ for k = 1:length(time)
     for i = 1:2*L+1
         X_pred(:,i) = maglevSystemDynamics(X(:,i), U(:,k), params) * dt + X(:,i);
     end
-    % Compute predicted mean and covariance
+    % Computeing the predicted mean and covariance
     x_pred = sum(Wm .* X_pred, 2);
     P_pred = Q;
     for i = 1:2*L+1
@@ -132,7 +132,7 @@ for k = 1:length(time)
     %Describing the confidance rate between the predicted and the measured
     %states
     %doing the Frobenius Norm because the determinant is not possible
-    %finding out if the Ka
+    %For finding out if the Kalman gain stabilizes
     KGain(k) = norm(K, 'fro'); 
     
 
@@ -155,27 +155,27 @@ subplot(3,1,1);
 plot(time, x_hist(1,:), 'r', 'LineWidth', 1.5); hold on;
 plot(time, y_meas_hist(1,:), 'g-', 'LineWidth', 1.2); 
 plot(time, y_pred_hist(1,:), 'b--', 'LineWidth', 1.2); 
-xlabel('Time [s]'); ylabel('X Position [m]'); 
-title('Maglev X Position - Estimated vs. Measured');
-legend('Estimated X (X3)', 'Measured X', 'Predicted X');
+xlabel('Seconds'); ylabel('meters'); 
+title('Maglev X Position');
+legend('Estimated X (X3)', 'Measured X (Y1)', 'Predicted X');
 grid on;
 
 subplot(3,1,2); 
 plot(time, x_hist(2,:), 'r', 'LineWidth', 1.5); hold on;
 plot(time, y_meas_hist(2,:), 'g--', 'LineWidth', 1.2);
 plot(time, y_pred_hist(2,:), 'b--', 'LineWidth', 1.2); 
-xlabel('Time [s]'); ylabel('Y Position [m]'); 
-title('Maglev Y Position - Estimated vs. Measured');
-legend('State Estimated Y (X2)', 'Measured Y', 'Predicted Y');
+xlabel('Seconds'); ylabel('meter'); 
+title('Magnet Y Position');
+legend('State Estimated Y (X2)', 'Measured Y (Y2)', 'Predicted Y');
 grid on;
 
 subplot(3,1,3); 
 plot(time, x_hist(3,:), 'r', 'LineWidth', 1.5); hold on;
 plot(time, y_meas_hist(3,:), 'g-', 'LineWidth', 1.2); 
 plot(time, y_pred_hist(3,:), 'b--', 'LineWidth', 1.2); 
-xlabel('Time [s]'); ylabel('Z Position [m]'); 
-title('Maglev Z Position - Estimated vs. Measured');
-legend('Estimated Z (X3)', 'Measured Z', 'Predicted Z');
+xlabel('Seconds'); ylabel('meters'); 
+title('Magnet Z Position');
+legend('Estimated Z (X3)', 'Measured Z (Y3)', 'Predicted Z');
 grid on;
 
 figure
